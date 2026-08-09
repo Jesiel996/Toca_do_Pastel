@@ -700,24 +700,33 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
-  { id: 1, name: "Pastel de Carne", desc: "Carne moída temperada com cebola e cheiro-verde", price: 8.00, emoji: "🥩", cat: "tradicionais" },
-  { id: 2, name: "Pastel de Queijo", desc: "Mussarela derretida na massa crocante", price: 7.00, emoji: "🧀", cat: "tradicionais" },
-  { id: 3, name: "Pastel de Frango", desc: "Frango desfiado com catupiry", price: 8.50, emoji: "🍗", cat: "tradicionais" },
-  { id: 4, name: "Pastel de Calabresa", desc: "Calabresa acebolada com orégano", price: 8.50, emoji: "🌭", cat: "tradicionais" },
-  { id: 5, name: "Pastel de Pizza", desc: "Mussarela, presunto, tomate e orégano", price: 9.00, emoji: "🍕", cat: "especiais" },
-  { id: 6, name: "Pastel de Camarão", desc: "Camarão com catupiry e cheiro-verde", price: 14.00, emoji: "🦐", cat: "especiais" },
-  { id: 7, name: "Pastel de Palmito", desc: "Palmito com catupiry e azeitona", price: 10.00, emoji: "🫒", cat: "especiais" },
-  { id: 8, name: "Pastel de Chocolate", desc: "Chocolate ao leite derretido", price: 7.50, emoji: "🍫", cat: "doces" },
-  { id: 9, name: "Pastel de Banana", desc: "Banana com canela e açúcar", price: 6.50, emoji: "🍌", cat: "doces" },
-  { id: 10, name: "Refrigerante Lata", desc: "Coca, Guaraná, Sprite, Fanta", price: 6.00, emoji: "🥤", cat: "bebidas" },
-  { id: 11, name: "Suco Natural", desc: "Laranja, Limão, Maracujá, Acerola", price: 8.00, emoji: "🧃", cat: "bebidas" },
-  { id: 12, name: "Água", desc: "Água mineral sem gás", price: 3.00, emoji: "💧", cat: "bebidas" },
+  { id: 1, name: "Pastel de Carne", desc: "Carne moída temperada com cebola e cheiro-verde", price: 8.00, emoji: "🥩", cat: "tradicionais", active: true },
+  { id: 2, name: "Pastel de Queijo", desc: "Mussarela derretida na massa crocante", price: 7.00, emoji: "🧀", cat: "tradicionais", active: true },
+  { id: 3, name: "Pastel de Frango", desc: "Frango desfiado com catupiry", price: 8.50, emoji: "🍗", cat: "tradicionais", active: true },
+  { id: 4, name: "Pastel de Calabresa", desc: "Calabresa acebolada com orégano", price: 8.50, emoji: "🌭", cat: "tradicionais", active: true },
+  { id: 5, name: "Pastel de Pizza", desc: "Mussarela, presunto, tomate e orégano", price: 9.00, emoji: "🍕", cat: "especiais", active: true },
+  { id: 6, name: "Pastel de Camarão", desc: "Camarão com catupiry e cheiro-verde", price: 14.00, emoji: "🦐", cat: "especiais", active: true },
+  { id: 7, name: "Pastel de Palmito", desc: "Palmito com catupiry e azeitona", price: 10.00, emoji: "🫒", cat: "especiais", active: true },
+  { id: 8, name: "Pastel de Chocolate", desc: "Chocolate ao leite derretido", price: 7.50, emoji: "🍫", cat: "doces", active: true },
+  { id: 9, name: "Pastel de Banana", desc: "Banana com canela e açúcar", price: 6.50, emoji: "🍌", cat: "doces", active: true },
+  { id: 10, name: "Refrigerante Lata", desc: "Coca, Guaraná, Sprite, Fanta", price: 6.00, emoji: "🥤", cat: "bebidas", active: true },
+  { id: 11, name: "Suco Natural", desc: "Laranja, Limão, Maracujá, Acerola", price: 8.00, emoji: "🧃", cat: "bebidas", active: true },
+  { id: 12, name: "Água", desc: "Água mineral sem gás", price: 3.00, emoji: "💧", cat: "bebidas", active: true },
 ];
 
 function getMenu() {
   try {
     const saved = localStorage.getItem('pastel_menu');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Migração: garante que todos os itens tenham campo active
+      let changed = false;
+      parsed.forEach(item => {
+        if (typeof item.active === 'undefined') { item.active = true; changed = true; }
+      });
+      if (changed) localStorage.setItem('pastel_menu', JSON.stringify(parsed));
+      return parsed;
+    }
   } catch(e) { console.error('Erro ao ler menu:', e); }
   localStorage.setItem('pastel_menu', JSON.stringify(DEFAULT_MENU));
   return DEFAULT_MENU;
@@ -779,7 +788,7 @@ function renderMenu() {
   const wrap = document.getElementById('products-wrap');
   const search = document.getElementById('search-input').value.toLowerCase();
 
-  let filtered = menu;
+  let filtered = menu.filter(p => p.active !== false);
   if (activeCat !== 'todos') filtered = filtered.filter(p => p.cat === activeCat);
   if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search));
 
