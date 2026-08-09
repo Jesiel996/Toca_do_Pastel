@@ -538,7 +538,6 @@
       .track-btn { width: 100%; }
     }
   </style>
-<base target="_blank">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <base target="_blank">
 </head>
@@ -692,9 +691,12 @@
 
 <script>
 // ===== SUPABASE =====
+// ⚠️ ATENÇÃO: Em produção, use variáveis de ambiente para esconder a anon key.
+// Para GitHub Pages (hosting estático), a key anon é exposta por natureza.
+// Recomenda-se: Row Level Security (RLS) ativado no Supabase + políticas restritivas.
 const SUPABASE_URL = 'https://gddwosqhbqvzxgrqxqbf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkZHdvc3FoYnF2enhncnF4cWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODMxNTcsImV4cCI6MjEwMTg1OTE1N30.sr4XykqinnjCxpO0HTzif3tFvO6LJsJQpgsmS3iBgEg';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
@@ -713,8 +715,10 @@ const DEFAULT_MENU = [
 ];
 
 function getMenu() {
-  const saved = localStorage.getItem('pastel_menu');
-  if (saved) return JSON.parse(saved);
+  try {
+    const saved = localStorage.getItem('pastel_menu');
+    if (saved) return JSON.parse(saved);
+  } catch(e) { console.error('Erro ao ler menu:', e); }
   localStorage.setItem('pastel_menu', JSON.stringify(DEFAULT_MENU));
   return DEFAULT_MENU;
 }
@@ -930,8 +934,7 @@ async function confirmOrder() {
     time: new Date().toLocaleString('pt-BR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})
   };
 
-  // Salvar no Supabase
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('orders')
     .insert([order])
     .select();
@@ -986,8 +989,7 @@ async function trackOrder(auto) {
 
   trackedOrderId = id;
 
-  // Buscar do Supabase
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('orders')
     .select('*')
     .eq('id', id)
