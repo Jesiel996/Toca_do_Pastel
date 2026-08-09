@@ -539,6 +539,8 @@
     }
   </style>
 <base target="_blank">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<base target="_blank">
 </head>
 <body>
 
@@ -689,19 +691,10 @@
 <div class="toast" id="toast"><span class="dot"></span><span id="toast-msg"></span></div>
 
 <script>
-// ===== BROADCAST CHANNEL (sincronização entre abas) =====
-let bc = null;
-try {
-  bc = new BroadcastChannel('pastel_condominio');
-} catch(e) {
-  console.log('BroadcastChannel não suportado');
-}
-
-function broadcast(msg) {
-  if (bc) bc.postMessage(msg);
-  // Fallback: também dispara evento storage
-  localStorage.setItem('pastel_sync', Date.now() + ':' + JSON.stringify(msg));
-}
+// ===== SUPABASE =====
+const SUPABASE_URL = 'https://gddwosqhbqvzxgrqxqbf.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkZHdvc3FoYnF2enhncnF4cWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODMxNTcsImV4cCI6MjEwMTg1OTE1N30.sr4XykqinnjCxpO0HTzif3tFvO6LJsJQpgsmS3iBgEg';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
@@ -916,7 +909,7 @@ function goCheckout() {
   document.getElementById('co-total').textContent = `R$ ${total.toFixed(2).replace('.',',')}`;
 }
 
-function confirmOrder() {
+async function confirmOrder() {
   const name = document.getElementById('co-name').value.trim();
   const apt = document.getElementById('co-apt').value.trim();
   const phone = document.getElementById('co-phone').value.trim();
@@ -926,10 +919,8 @@ function confirmOrder() {
   }
   if (cart.length === 0) { showToast('Carrinho vazio'); return; }
 
-  let counter = parseInt(localStorage.getItem('pastel_counter') || '1');
   const total = cart.reduce((s,i) => s + i.price*i.qty, 0);
   const order = {
-    id: counter,
     name, apt, phone,
     payment: document.getElementById('co-payment').value,
     notes: document.getElementById('co-notes').value.trim(),
@@ -939,15 +930,20 @@ function confirmOrder() {
     time: new Date().toLocaleString('pt-BR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})
   };
 
-  const orders = JSON.parse(localStorage.getItem('pastel_orders') || '[]');
-  orders.unshift(order);
-  localStorage.setItem('pastel_orders', JSON.stringify(orders));
-  localStorage.setItem('pastel_counter', (counter+1).toString());
+  // Salvar no Supabase
+  const { data, error } = await supabase
+    .from('orders')
+    .insert([order])
+    .select();
 
-  // 🔔 SINCRONIZAÇÃO: avisa a gestão que chegou pedido novo
-  broadcast({ type: 'novo_pedido', id: order.id, name: order.name });
+  if (error) {
+    console.error('Erro ao salvar pedido:', error);
+    showToast('Erro ao enviar pedido. Tente novamente.');
+    return;
+  }
 
-  document.getElementById('success-num').textContent = '#' + String(order.id).padStart(3,'0');
+  const savedOrder = data[0];
+  document.getElementById('success-num').textContent = '#' + String(savedOrder.id).padStart(3,'0');
   cart = [];
   renderMenu();
   updateCartUI();
@@ -971,10 +967,9 @@ function goToTrack() {
 }
 
 // ===== ACOMPANHAR POR NUMERO =====
-function trackOrder(auto) {
+async function trackOrder(auto) {
   const raw = document.getElementById('track-num').value.trim().replace('#','');
   const resultDiv = document.getElementById('track-result');
-  const allOrders = JSON.parse(localStorage.getItem('pastel_orders') || '[]');
 
   if (!raw && !auto) {
     resultDiv.innerHTML = '';
@@ -990,12 +985,20 @@ function trackOrder(auto) {
   }
 
   trackedOrderId = id;
-  const o = allOrders.find(x => x.id === id);
 
-  if (!o) {
+  // Buscar do Supabase
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error || !data) {
     resultDiv.innerHTML = `<div class="track-empty"><span class="big">🔍</span><p>Pedido #${String(id).padStart(3,'0')} não encontrado</p></div>`;
     return;
   }
+
+  const o = data;
 
   const statusLabels = { 
     pendente: '⏳ Recebido — Aguardando confirmação', 
@@ -1004,6 +1007,8 @@ function trackOrder(auto) {
     entregue: '📦 Entregue — Bom apetite!', 
     cancelado: '❌ Cancelado — Entre em contato conosco' 
   };
+
+  const items = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
 
   resultDiv.innerHTML = `
     <div class="track-result ${o.status}">
@@ -1015,7 +1020,7 @@ function trackOrder(auto) {
         <span class="track-status ${o.status}">${statusLabels[o.status]}</span>
       </div>
       <div class="track-items">
-        ${o.items.map(i => `<span>${i.qty}x ${i.name}</span>`).join(' · ')}
+        ${items.map(i => `<span>${i.qty}x ${i.name}</span>`).join(' · ')}
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
         <span class="track-total">R$ ${o.total.toFixed(2).replace('.',',')}</span>
