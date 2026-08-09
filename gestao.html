@@ -378,8 +378,31 @@
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-// ===== CAMPAINHA / ALERT SOUND (Web Audio API — não depende de arquivo externo) =====
+// ===== CAMPAINHA / ALERT SOUND =====
+// Tenta tocar alerta.mp3 (arquivo personalizado no repo).
+// Se não existir ou der erro, faz fallback para beeps via Web Audio API.
 let audioCtx = null;
+let alertAudio = null;
+let audioLoaded = false;
+let audioError = false;
+
+function initAlertAudio() {
+  if (alertAudio) return;
+  alertAudio = document.getElementById('alert-sound');
+  if (!alertAudio) {
+    audioError = true;
+    return;
+  }
+  alertAudio.addEventListener('canplaythrough', function() {
+    audioLoaded = true;
+    console.log('✅ alerta.mp3 carregado e pronto');
+  });
+  alertAudio.addEventListener('error', function(e) {
+    audioError = true;
+    console.log('⚠️ alerta.mp3 não encontrado ou formato não suportado. Usando fallback de beeps.');
+  });
+  alertAudio.load();
+}
 
 function getAudioContext() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -388,9 +411,9 @@ function getAudioContext() {
 
 function playBeep(freq, duration, type) {
   type = type || 'sine';
-  const ctx = getAudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
+  var ctx = getAudioContext();
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
   osc.type = type;
   osc.frequency.setValueAtTime(freq, ctx.currentTime);
   gain.gain.setValueAtTime(0.15, ctx.currentTime);
@@ -401,19 +424,43 @@ function playBeep(freq, duration, type) {
   osc.stop(ctx.currentTime + duration);
 }
 
-function playAlertSound() {
+function playFallbackBeeps() {
   try {
-    const ctx = getAudioContext();
+    var ctx = getAudioContext();
     if (ctx.state === 'suspended') ctx.resume();
     playBeep(880, 0.15);
     setTimeout(function() { playBeep(1100, 0.15); }, 180);
     setTimeout(function() { playBeep(1320, 0.25); }, 360);
-  } catch(e) { console.error('Erro ao tocar som:', e); }
+  } catch(e) { console.error('Erro ao tocar beep:', e); }
+}
+
+function playAlertSound() {
+  initAlertAudio();
+  // Tenta tocar o arquivo personalizado primeiro
+  if (alertAudio && audioLoaded && !audioError) {
+    try {
+      alertAudio.currentTime = 0;
+      var promise = alertAudio.play();
+      if (promise !== undefined) {
+        promise.then(function() {
+          console.log('🔔 alerta.mp3 tocando');
+        }).catch(function(err) {
+          console.log('⚠️ Navegador bloqueou autoplay do áudio. Usando beeps.');
+          playFallbackBeeps();
+        });
+      }
+      return;
+    } catch(e) {
+      console.log('⚠️ Erro no áudio, usando fallback');
+    }
+  }
+  // Fallback para beeps
+  playFallbackBeeps();
 }
 
 function testSound() {
   playAlertSound();
-  showToast('🔔', 'Campainha testada! 3 toques', 'ok');
+  showToast('🔔', 'Campainha testada!', 'ok');
 }
 
 // ===== SUPABASE =====
@@ -1003,5 +1050,6 @@ function showToast(icon, text, type) {
 init();
 </script>
 
+<audio id="alert-sound" src="alerta.mp3.mp3" preload="auto"></audio>
 </body>
 </html>
