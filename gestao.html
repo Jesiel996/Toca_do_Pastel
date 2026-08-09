@@ -6,218 +6,67 @@
   <title>Painel de Gestão — Pastel do Condomínio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
     :root {
-      --bg: #0B0A0A;
-      --surface: #141313;
-      --surface-hover: #1E1D1D;
-      --card: #1A1919;
-      --border: #2A2929;
-      --text: #F0EBE6;
-      --text-dim: #9E9994;
-      --text-muted: #5C5854;
-      --accent: #FF7A2F;
-      --accent-glow: rgba(255,122,47,0.12);
-      --accent-light: #FF9A5C;
-      --success: #34D399;
-      --danger: #F87171;
-      --warning: #FBBF24;
-      --info: #60A5FA;
+      --bg: #0B0A0A; --surface: #141313; --surface-hover: #1E1D1D; --card: #1A1919;
+      --border: #2A2929; --text: #F0EBE6; --text-dim: #9E9994; --text-muted: #5C5854;
+      --accent: #FF7A2F; --accent-glow: rgba(255,122,47,0.12); --accent-light: #FF9A5C;
+      --success: #34D399; --danger: #F87171; --warning: #FBBF24; --info: #60A5FA;
     }
-
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { 
-      font-family: 'Inter', system-ui, sans-serif; 
-      background: var(--bg); 
-      color: var(--text); 
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    /* ===== HEADER ===== */
-    .header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
-      position: sticky; top: 0; z-index: 100;
-    }
-    .header-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), #FF5722);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      box-shadow: 0 4px 20px rgba(255,122,47,0.25);
-    }
+    .brand-icon { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #FF5722); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 20px rgba(255,122,47,0.25); }
     .brand h1 { font-size: 1.1rem; font-weight: 800; }
     .brand span { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
-    .header-badge {
-      background: var(--danger);
-      color: #fff; font-size: 0.75rem; font-weight: 700;
-      padding: 4px 12px; border-radius: 20px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    /* ===== MAIN TABS ===== */
-    .main-tabs {
-      max-width: 1200px; margin: 0 auto;
-      padding: 20px 24px 0;
-      display: flex; gap: 4px;
-      border-bottom: 1px solid var(--border);
-    }
-    .main-tab {
-      padding: 10px 20px;
-      background: transparent; border: none; border-bottom: 2px solid transparent;
-      color: var(--text-dim); font-size: 0.88rem; font-weight: 600;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.2s; margin-bottom: -1px;
-    }
+    .header-badge { background: var(--danger); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .main-tabs { max-width: 1200px; margin: 0 auto; padding: 20px 24px 0; display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
+    .main-tab { padding: 10px 20px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-dim); font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; margin-bottom: -1px; }
     .main-tab:hover { color: var(--text); }
-    .main-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    /* ===== CONTENT ===== */
+    .main-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .content { max-width: 1200px; margin: 0 auto; padding: 24px; }
-
-    /* ===== PERIOD STATS ===== */
-    .period-bar {
-      display: flex; gap: 8px; margin-bottom: 20px;
-      overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none;
-    }
+    .period-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .period-bar::-webkit-scrollbar { display: none; }
-    .period-pill {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      padding: 8px 16px; border-radius: 24px;
-      font-size: 0.78rem; font-weight: 600;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.2s; font-family: inherit;
-    }
+    .period-pill { background: var(--card); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; border-radius: 24px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
     .period-pill:hover { border-color: var(--accent); color: var(--text); }
-    .period-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 4px 16px rgba(255,122,47,0.2);
-    }
-
-    /* ===== STATS ===== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px; margin-bottom: 28px;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      transition: all 0.2s;
-    }
+    .period-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; transition: all 0.2s; }
     .stat-card:hover { border-color: rgba(255,122,47,0.2); }
-    .stat-top {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .stat-icon {
-      width: 40px; height: 40px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-    }
+    .stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
     .stat-icon.blue { background: rgba(96,165,250,0.12); }
     .stat-icon.orange { background: rgba(255,122,47,0.12); }
     .stat-icon.yellow { background: rgba(251,191,36,0.12); }
     .stat-icon.green { background: rgba(52,211,153,0.12); }
-    .stat-change {
-      font-size: 0.7rem; font-weight: 600; padding: 3px 8px;
-      border-radius: 8px;
-    }
+    .stat-change { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 8px; }
     .stat-change.up { background: rgba(52,211,153,0.12); color: var(--success); }
     .stat-value { font-size: 1.8rem; font-weight: 800; }
     .stat-label { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; font-weight: 500; }
-
-    /* ===== ORDER FILTERS ===== */
-    .filter-bar {
-      display: flex; gap: 8px; margin-bottom: 20px;
-      overflow-x: auto; padding-bottom: 4px;
-      scrollbar-width: none;
-    }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .filter-bar::-webkit-scrollbar { display: none; }
-    .filter-pill {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      padding: 8px 18px; border-radius: 24px;
-      font-size: 0.8rem; font-weight: 600;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.2s; font-family: inherit;
-    }
+    .filter-pill { background: var(--card); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 18px; border-radius: 24px; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
     .filter-pill:hover { border-color: var(--accent); color: var(--text); }
-    .filter-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 4px 16px rgba(255,122,47,0.2);
-    }
-
-    /* ===== ORDER CARDS ===== */
+    .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
     .orders-list { display: flex; flex-direction: column; gap: 12px; }
-    .order-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      transition: all 0.25s;
-      animation: slideIn 0.35s ease both;
-      position: relative;
-      overflow: hidden;
-    }
-    .order-card::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-    }
+    .order-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; transition: all 0.25s; animation: slideIn 0.35s ease both; position: relative; overflow: hidden; }
+    .order-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
     .order-card.pendente::before { background: var(--warning); }
     .order-card.preparando::before { background: var(--accent); }
     .order-card.pronto::before { background: var(--info); }
     .order-card.entregue::before { background: var(--success); }
     .order-card.cancelado::before { background: var(--danger); }
-    .order-card:hover {
-      border-color: rgba(255,122,47,0.15);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .order-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 12px;
-    }
+    .order-card:hover { border-color: rgba(255,122,47,0.15); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .order-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .order-id { font-weight: 800; font-size: 1rem; }
     .order-time { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-    .status-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 12px; border-radius: 20px;
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
     .status-pill.pendente { background: rgba(251,191,36,0.1); color: var(--warning); }
     .status-pill.preparando { background: rgba(255,122,47,0.1); color: var(--accent); }
     .status-pill.pronto { background: rgba(96,165,250,0.1); color: var(--info); }
@@ -229,38 +78,15 @@
     .status-dot.pronto { background: var(--info); }
     .status-dot.entregue { background: var(--success); }
     .status-dot.cancelado { background: var(--danger); }
-
-    .order-customer {
-      font-size: 0.85rem; color: var(--text-dim);
-      margin-bottom: 12px; line-height: 1.6;
-    }
+    .order-customer { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.6; }
     .order-customer strong { color: var(--text); }
-
-    .order-items {
-      background: var(--surface);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 14px;
-    }
-    .order-item-line {
-      display: flex; justify-content: space-between;
-      font-size: 0.82rem; padding: 4px 0;
-      color: var(--text-dim);
-    }
+    .order-items { background: var(--surface); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
+    .order-item-line { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 4px 0; color: var(--text-dim); }
     .order-item-line span:last-child { color: var(--text); font-weight: 600; }
-
-    .order-footer {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 12px;
-    }
+    .order-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .order-total { font-size: 1.1rem; font-weight: 800; color: var(--accent); }
     .order-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .order-actions button {
-      padding: 8px 16px; border-radius: 10px;
-      border: none; font-size: 0.78rem; font-weight: 700;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.3px;
-    }
+    .order-actions button { padding: 8px 16px; border-radius: 10px; border: none; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.3px; }
     .btn-accept { background: var(--success); color: #062c1e; }
     .btn-accept:hover { filter: brightness(1.1); }
     .btn-cook { background: var(--accent); color: #fff; }
@@ -271,165 +97,54 @@
     .btn-deliver:hover { filter: brightness(1.1); }
     .btn-cancel-order { background: transparent; border: 1px solid var(--danger) !important; color: var(--danger); }
     .btn-cancel-order:hover { background: rgba(248,113,113,0.1); }
-    .btn-delete-order {
-      background: transparent; border: 1px solid var(--text-muted) !important;
-      color: var(--text-muted); font-size: 0.7rem !important;
-    }
+    .btn-delete-order { background: transparent; border: 1px solid var(--text-muted) !important; color: var(--text-muted); font-size: 0.7rem !important; }
     .btn-delete-order:hover { background: rgba(248,113,113,0.1); border-color: var(--danger) !important; color: var(--danger); }
-
-    .empty-state {
-      text-align: center; padding: 80px 20px; color: var(--text-muted);
-    }
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); }
     .empty-state .big { font-size: 4rem; margin-bottom: 16px; display: block; }
     .empty-state h3 { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 6px; }
-
-    /* ===== MENU MANAGEMENT ===== */
-    .menu-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 20px;
-    }
+    .menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .menu-header h2 { font-size: 1.1rem; font-weight: 700; }
-    .btn-add-item {
-      background: var(--accent);
-      color: #fff; border: none;
-      padding: 10px 20px; border-radius: 12px;
-      font-size: 0.85rem; font-weight: 700;
-      cursor: pointer; font-family: inherit;
-      display: flex; align-items: center; gap: 6px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 16px rgba(255,122,47,0.2);
-    }
+    .btn-add-item { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
     .btn-add-item:hover { filter: brightness(1.1); transform: translateY(-1px); }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
-    }
-    .menu-item-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex; gap: 14px; align-items: center;
-      transition: all 0.2s;
-    }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .menu-item-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; display: flex; gap: 14px; align-items: center; transition: all 0.2s; }
     .menu-item-card:hover { border-color: rgba(255,122,47,0.2); }
-    .menu-item-img {
-      width: 56px; height: 56px; border-radius: 14px;
-      background: var(--surface);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; flex-shrink: 0;
-    }
+    .menu-item-img { width: 56px; height: 56px; border-radius: 14px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
     .menu-item-info { flex: 1; min-width: 0; }
     .menu-item-name { font-weight: 700; font-size: 0.92rem; }
     .menu-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
     .menu-item-price { font-weight: 700; color: var(--accent); font-size: 0.9rem; margin-top: 4px; }
     .menu-item-cat { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
     .menu-item-actions { display: flex; gap: 6px; }
-    .menu-item-actions button {
-      width: 32px; height: 32px; border-radius: 8px;
-      border: 1px solid var(--border); background: var(--surface);
-      color: var(--text-dim); cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; transition: all 0.2s;
-    }
+    .menu-item-actions button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all 0.2s; }
     .menu-item-actions button:hover { border-color: var(--accent); color: var(--accent); }
     .menu-item-actions .btn-del:hover { border-color: var(--danger); color: var(--danger); background: rgba(248,113,113,0.08); }
-
-    /* ===== MODAL ===== */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s;
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
-    }
+    .modal-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      width: 100%; max-width: 460px;
-      max-height: 90vh; overflow-y: auto;
-      transform: translateY(20px) scale(0.97);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .modal { background: var(--card); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; transform: translateY(20px) scale(0.97); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-    .modal-header {
-      padding: 24px 24px 0;
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .modal-header { padding: 24px 24px 0; display: flex; justify-content: space-between; align-items: center; }
     .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
-    .modal-close {
-      width: 32px; height: 32px; border-radius: 10px;
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text-dim); cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
+    .modal-close { width: 32px; height: 32px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     .modal-body { padding: 20px 24px 24px; }
-    .modal-footer {
-      padding: 0 24px 24px;
-      display: flex; gap: 10px;
-    }
+    .modal-footer { padding: 0 24px 24px; display: flex; gap: 10px; }
     .modal-footer button { flex: 1; padding: 14px; border-radius: 14px; border: none; font-size: 0.9rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .modal-footer .btn-save { background: var(--accent); color: #fff; }
     .modal-footer .btn-save:hover { filter: brightness(1.1); }
     .modal-footer .btn-cancel { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); }
     .modal-footer .btn-cancel:hover { color: var(--text); }
-
     .form-group { margin-bottom: 16px; }
-    .form-group label {
-      display: block; font-size: 0.75rem; font-weight: 600;
-      color: var(--text-dim); text-transform: uppercase;
-      letter-spacing: 0.5px; margin-bottom: 8px;
-    }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 13px 15px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text); font-size: 0.92rem;
-      outline: none; font-family: inherit;
-      transition: all 0.2s;
-    }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 0.92rem; outline: none; font-family: inherit; transition: all 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
     .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .emoji-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-    .emoji-opt {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: var(--surface); border: 2px solid var(--border);
-      font-size: 1.3rem; cursor: pointer; display: flex;
-      align-items: center; justify-content: center;
-      transition: all 0.15s;
-    }
+    .emoji-opt { width: 40px; height: 40px; border-radius: 10px; background: var(--surface); border: 2px solid var(--border); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
     .emoji-opt:hover { border-color: var(--accent); }
     .emoji-opt.selected { border-color: var(--accent); background: var(--accent-glow); }
-
-    /* ===== TOAST ===== */
-    .toast-wrap {
-      position: fixed; top: 24px; right: 24px; z-index: 400;
-      display: flex; flex-direction: column; gap: 10px;
-      pointer-events: none;
-    }
-    .toast {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      display: flex; align-items: center; gap: 12px;
-      transform: translateX(120%);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: all; min-width: 280px;
-    }
+    .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 400; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 12px; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: all; min-width: 280px; }
     .toast.show { transform: translateX(0); }
     .toast-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
     .toast-icon.new { background: rgba(251,191,36,0.12); }
@@ -437,98 +152,26 @@
     .toast-icon.del { background: rgba(248,113,113,0.12); }
     .toast-text h4 { font-size: 0.88rem; font-weight: 700; }
     .toast-text p { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
-
     .hidden { display: none !important; }
-
-
-    /* ===== DATE FILTER ===== */
-    .date-filter-bar {
-      display: flex; gap: 12px; align-items: flex-end;
-      margin-bottom: 20px; flex-wrap: wrap;
-    }
-    .date-group {
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .date-group label {
-      font-size: 0.7rem; font-weight: 600;
-      color: var(--text-dim); text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .date-group input[type="date"] {
-      padding: 10px 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text); font-size: 0.9rem;
-      font-family: inherit; outline: none;
-      transition: all 0.2s;
-    }
-    .date-group input[type="date"]:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
-    .date-group input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(0.7); cursor: pointer;
-    }
-    .btn-filter-date {
-      background: var(--accent);
-      color: #fff; border: none;
-      padding: 10px 20px; border-radius: 12px;
-      font-size: 0.85rem; font-weight: 700;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.2s;
-      box-shadow: 0 4px 16px rgba(255,122,47,0.2);
-      height: fit-content;
-    }
+    .date-filter-bar { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
+    .date-group { display: flex; flex-direction: column; gap: 6px; }
+    .date-group label { font-size: 0.7rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+    .date-group input[type="date"] { padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none; transition: all 0.2s; }
+    .date-group input[type="date"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .date-group input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+    .btn-filter-date { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: 0 4px 16px rgba(255,122,47,0.2); height: fit-content; }
     .btn-filter-date:hover { filter: brightness(1.1); }
-    .btn-clear-date {
-      background: var(--surface);
-      color: var(--text-dim); border: 1px solid var(--border);
-      padding: 10px 16px; border-radius: 12px;
-      font-size: 0.8rem; font-weight: 600;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.2s; height: fit-content;
-    }
+    .btn-clear-date { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; height: fit-content; }
     .btn-clear-date:hover { border-color: var(--accent); color: var(--text); }
-    .date-range-label {
-      font-size: 0.78rem; color: var(--text-dim);
-      margin-bottom: 14px; font-weight: 500;
-    }
-
-    /* ===== REPORTS TABLE ===== */
-    .report-table-wrap {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      margin-top: 16px;
-    }
-    .report-table {
-      width: 100%; border-collapse: collapse;
-    }
-    .report-table thead {
-      background: var(--surface);
-    }
-    .report-table th {
-      padding: 14px 18px;
-      text-align: left; font-size: 0.72rem;
-      font-weight: 700; color: var(--text-dim);
-      text-transform: uppercase; letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border);
-    }
-    .report-table td {
-      padding: 14px 18px;
-      font-size: 0.88rem; color: var(--text);
-      border-bottom: 1px solid var(--border);
-    }
+    .date-range-label { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 14px; font-weight: 500; }
+    .report-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-top: 16px; }
+    .report-table { width: 100%; border-collapse: collapse; }
+    .report-table thead { background: var(--surface); }
+    .report-table th { padding: 14px 18px; text-align: left; font-size: 0.72rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+    .report-table td { padding: 14px 18px; font-size: 0.88rem; color: var(--text); border-bottom: 1px solid var(--border); }
     .report-table tr:last-child td { border-bottom: none; }
     .report-table tr:hover td { background: rgba(255,122,47,0.04); }
-    .report-table .rank {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--surface); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.8rem; color: var(--accent);
-    }
+    .report-table .rank { width: 32px; height: 32px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--accent); }
     .report-table .rank.gold { background: rgba(251,191,36,0.15); color: var(--warning); border-color: rgba(251,191,36,0.3); }
     .report-table .rank.silver { background: rgba(160,174,192,0.15); color: #a0aec0; border-color: rgba(160,174,192,0.3); }
     .report-table .rank.bronze { background: rgba(205,127,50,0.15); color: #cd7f32; border-color: rgba(205,127,50,0.3); }
@@ -537,26 +180,15 @@
     .report-table .qty-cell { font-weight: 800; color: var(--accent); font-size: 1rem; }
     .report-table .rev-cell { font-weight: 700; color: var(--success); }
     .report-table .pct-cell { font-size: 0.8rem; color: var(--text-muted); }
-    .report-bar-bg {
-      width: 100%; height: 6px; border-radius: 3px;
-      background: var(--surface); overflow: hidden;
-      margin-top: 6px;
-    }
-    .report-bar-fill {
-      height: 100%; border-radius: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      transition: width 0.6s ease;
-    }
-    /* ===== RESPONSIVE ===== */
+    .report-bar-bg { width: 100%; height: 6px; border-radius: 3px; background: var(--surface); overflow: hidden; margin-top: 6px; }
+    .report-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); transition: width 0.6s ease; }
     @media (max-width: 768px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .revenue-grid { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .header-inner { flex-wrap: wrap; gap: 10px; }
       .order-footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
-<base target="_blank">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <base target="_blank">
 </head>
@@ -586,10 +218,7 @@
 
 <div class="content">
 
-  <!-- ===== TAB: PEDIDOS ===== -->
   <div id="tab-pedidos">
-
-    <!-- FILTRO DE PERÍODO COM CALENDÁRIO -->
     <div class="date-filter-bar">
       <div class="date-group">
         <label>Data Início</label>
@@ -656,7 +285,6 @@
     <div class="orders-list" id="orders-list"></div>
   </div>
 
-  <!-- ===== TAB: CARDAPIO ===== -->
   <div id="tab-cardapio" style="display:none;">
     <div class="menu-header">
       <h2>Itens do Cardápio</h2>
@@ -665,12 +293,10 @@
     <div class="menu-grid" id="menu-grid"></div>
   </div>
 
-  <!-- ===== TAB: RELATÓRIOS ===== -->
   <div id="tab-relatorios" style="display:none;">
     <div class="menu-header">
       <h2>📊 Itens Mais Vendidos</h2>
     </div>
-
     <div class="date-filter-bar">
       <div class="date-group">
         <label>Data Início</label>
@@ -684,7 +310,6 @@
       <button class="btn-clear-date" onclick="clearReportDateFilter()">Limpar</button>
     </div>
     <div class="date-range-label" id="report-date-label">Período: Todos os tempos</div>
-
     <div class="report-table-wrap">
       <table class="report-table">
         <thead>
@@ -705,7 +330,6 @@
 
 </div>
 
-<!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -751,44 +375,40 @@
   </div>
 </div>
 
-<!-- ===== TOASTS ===== -->
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-// ===== CAMPAINHA / ALERT SOUND =====
+// ===== CAMPAINHA / ALERT SOUND (Web Audio API — não depende de arquivo externo) =====
+let audioCtx = null;
 
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playBeep(freq, duration, type) {
+  type = type || 'sine';
+  const ctx = getAudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, ctx.currentTime);
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + duration);
+}
 
 function playAlertSound() {
   try {
-    const audio = document.getElementById('alert-sound');
-    if (!audio) {
-      console.log('❌ Elemento <audio> não encontrado no DOM');
-      return;
-    }
-    console.log('🔊 Tentando tocar áudio...');
-    console.log('   → src:', audio.src);
-    console.log('   → readyState:', audio.readyState, '(0=nada, 1=metadata, 2=dados atuais, 3=futuro, 4=completo)');
-    console.log('   → paused:', audio.paused);
-    console.log('   → duration:', audio.duration);
-    console.log('   → volume:', audio.volume);
-    console.log('   → muted:', audio.muted);
-
-    audio.currentTime = 0;
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log('✅ Áudio começou a tocar!');
-      }).catch(err => {
-        console.log('❌ Erro ao tocar:', err.name, '-', err.message);
-        if (err.name === 'NotAllowedError') {
-          console.log('💡 DICA: O navegador bloqueou o áudio. Clique em QUALQUER lugar da página primeiro, depois tente de novo.');
-        }
-        if (err.name === 'NotSupportedError') {
-          console.log('💡 DICA: O navegador não consegue tocar esse arquivo. Converta alerta.mp4 para MP3.');
-        }
-      });
-    }
-  } catch(e) { console.log('❌ Erro geral:', e); }
+    const ctx = getAudioContext();
+    if (ctx.state === 'suspended') ctx.resume();
+    playBeep(880, 0.15);
+    setTimeout(function() { playBeep(1100, 0.15); }, 180);
+    setTimeout(function() { playBeep(1320, 0.25); }, 360);
+  } catch(e) { console.error('Erro ao tocar som:', e); }
 }
 
 function testSound() {
@@ -797,9 +417,12 @@ function testSound() {
 }
 
 // ===== SUPABASE =====
+// ⚠️ ATENÇÃO: Em produção, use variáveis de ambiente para esconder a anon key.
+// Para GitHub Pages (hosting estático), a key anon é exposta por natureza.
+// Recomenda-se: Row Level Security (RLS) ativado no Supabase + políticas restritivas.
 const SUPABASE_URL = 'https://gddwosqhbqvzxgrqxqbf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkZHdvc3FoYnF2enhncnF4cWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODMxNTcsImV4cCI6MjEwMTg1OTE1N30.sr4XykqinnjCxpO0HTzif3tFvO6LJsJQpgsmS3iBgEg';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
@@ -828,7 +451,7 @@ function getMenu() {
 
 async function getOrders() {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('orders')
       .select('*')
       .order('id', { ascending: false });
@@ -838,7 +461,7 @@ async function getOrders() {
 }
 
 let menu = getMenu();
-let orders = getOrders();
+let orders = [];
 let currentTab = 'pedidos';
 let currentFilter = 'todos';
 let currentPeriod = 'hoje';
@@ -852,39 +475,27 @@ let reportDateEnd = null;
 const EMOJIS = ['🥟','🥩','🧀','🍗','🌭','🍕','🦐','🫒','🍫','🍌','🥤','🧃','💧','🍔','🌮','🥙','🍟','🍩','🍪','🍰','🧁','🍦','☕','🍵','🍺','🍷','🍹','🥗','🍝','🍜'];
 
 // ===== INIT =====
-function init() {
-  orders = getOrders();
+async function init() {
+  orders = await getOrders();
   if (orders.length > 0) {
-    lastSeenId = Math.max(...orders.map(o => o.id));
+    lastSeenId = Math.max.apply(null, orders.map(function(o) { return o.id; }));
   }
-  // Setar datas padrão (hoje)
-  const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  var today = new Date();
+  var todayStr = today.toISOString().split('T')[0];
   document.getElementById('date-start').value = todayStr;
   document.getElementById('date-end').value = todayStr;
   document.getElementById('report-date-start').value = todayStr;
   document.getElementById('report-date-end').value = todayStr;
 
-  
   renderOrders();
   renderMenuMgmt();
   updateStats();
   renderEmojiPicker();
   renderTopItems();
 
-  // Sincronização via BroadcastChannel (entre abas da mesma origem)
-  if (bc) {
-    bc.onmessage = (ev) => {
-      if (ev.data && ev.data.type === 'novo_pedido') {
-        checkNewOrders();
-      }
-    };
-  }
-
-  // Sincronização via storage (entre abas/janelas diferentes)
-  window.addEventListener('storage', e => {
+  window.addEventListener('storage', function(e) {
     if (e.key === 'pastel_orders' || e.key === 'pastel_ping') {
-      checkNewOrders();
+      refreshOrders();
     }
     if (e.key === 'pastel_menu') {
       menu = getMenu();
@@ -895,23 +506,29 @@ function init() {
   setInterval(checkNewOrders, 3000);
 }
 
+async function refreshOrders() {
+  orders = await getOrders();
+  if (currentTab === 'pedidos') { renderOrders(); updateStats(); }
+  if (currentTab === 'relatorios') renderTopItems();
+}
+
 function applyDateFilter() {
-  const s = document.getElementById('date-start').value;
-  const e = document.getElementById('date-end').value;
+  var s = document.getElementById('date-start').value;
+  var e = document.getElementById('date-end').value;
   if (!s || !e) { showToast('⚠️', 'Selecione as duas datas', 'del'); return; }
   if (new Date(s) > new Date(e)) { showToast('⚠️', 'Data início não pode ser maior que data fim', 'del'); return; }
 
   customDateStart = s;
   customDateEnd = e;
   currentPeriod = 'custom';
-  document.querySelectorAll('.period-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.period-pill').forEach(function(b) { b.classList.remove('active'); });
 
-  const startFmt = new Date(s).toLocaleDateString('pt-BR');
-  const endFmt = new Date(e).toLocaleDateString('pt-BR');
+  var startFmt = new Date(s).toLocaleDateString('pt-BR');
+  var endFmt = new Date(e).toLocaleDateString('pt-BR');
   document.getElementById('date-range-label').textContent = 'Período: ' + startFmt + ' até ' + endFmt;
 
-  
-  checkNewOrders();
+  renderOrders();
+  updateStats();
   showToast('✅', 'Filtro aplicado', 'ok');
 }
 
@@ -919,27 +536,27 @@ function clearDateFilter() {
   customDateStart = null;
   customDateEnd = null;
   currentPeriod = 'hoje';
-  const today = new Date().toISOString().split('T')[0];
+  var today = new Date().toISOString().split('T')[0];
   document.getElementById('date-start').value = today;
   document.getElementById('date-end').value = today;
-  document.querySelectorAll('.period-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.period-pill').forEach(function(b) { b.classList.remove('active'); });
   document.querySelector('.period-pill').classList.add('active');
   document.getElementById('date-range-label').textContent = 'Período: Hoje';
-  
-  checkNewOrders();
+  renderOrders();
+  updateStats();
 }
 
 function applyReportDateFilter() {
-  const s = document.getElementById('report-date-start').value;
-  const e = document.getElementById('report-date-end').value;
+  var s = document.getElementById('report-date-start').value;
+  var e = document.getElementById('report-date-end').value;
   if (!s || !e) { showToast('⚠️', 'Selecione as duas datas', 'del'); return; }
   if (new Date(s) > new Date(e)) { showToast('⚠️', 'Data início não pode ser maior que data fim', 'del'); return; }
 
   reportDateStart = s;
   reportDateEnd = e;
 
-  const startFmt = new Date(s).toLocaleDateString('pt-BR');
-  const endFmt = new Date(e).toLocaleDateString('pt-BR');
+  var startFmt = new Date(s).toLocaleDateString('pt-BR');
+  var endFmt = new Date(e).toLocaleDateString('pt-BR');
   document.getElementById('report-date-label').textContent = 'Período: ' + startFmt + ' até ' + endFmt;
 
   renderTopItems();
@@ -949,7 +566,7 @@ function applyReportDateFilter() {
 function clearReportDateFilter() {
   reportDateStart = null;
   reportDateEnd = null;
-  const today = new Date().toISOString().split('T')[0];
+  var today = new Date().toISOString().split('T')[0];
   document.getElementById('report-date-start').value = today;
   document.getElementById('report-date-end').value = today;
   document.getElementById('report-date-label').textContent = 'Período: Todos os tempos';
@@ -957,15 +574,14 @@ function clearReportDateFilter() {
 }
 
 function renderTopItems() {
-  const tbody = document.getElementById('report-tbody');
-  let all = orders.filter(o => o.status !== 'cancelado');
+  var tbody = document.getElementById('report-tbody');
+  var all = orders.filter(function(o) { return o.status !== 'cancelado'; });
 
-  // Filtrar por data do relatório
   if (reportDateStart && reportDateEnd) {
-    const s = localDate(reportDateStart); s.setHours(0,0,0,0);
-    const e = localDate(reportDateEnd); e.setHours(23,59,59,999);
-    all = all.filter(o => {
-      const d = parseOrderTime(o.time);
+    var s = localDate(reportDateStart); s.setHours(0,0,0,0);
+    var e = localDate(reportDateEnd); e.setHours(23,59,59,999);
+    all = all.filter(function(o) {
+      var d = parseOrderTime(o.time);
       if (!d) return true;
       return d >= s && d <= e;
     });
@@ -976,29 +592,28 @@ function renderTopItems() {
     return;
   }
 
-  // Agregar itens
-  const itemMap = {};
-  let totalQty = 0;
-  all.forEach(o => {
-    o.items.forEach(it => {
-      const key = it.name;
+  var itemMap = {};
+  var totalQty = 0;
+  all.forEach(function(o) {
+    var items = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
+    items.forEach(function(it) {
+      var key = it.name;
       if (!itemMap[key]) itemMap[key] = { name: it.name, qty: 0, revenue: 0, cat: '' };
       itemMap[key].qty += it.qty;
       itemMap[key].revenue += it.price * it.qty;
       totalQty += it.qty;
-      // Tentar achar categoria no menu
-      const menuItem = menu.find(m => m.name === it.name);
+      var menuItem = menu.find(function(m) { return m.name === it.name; });
       if (menuItem) itemMap[key].cat = menuItem.cat;
     });
   });
 
-  const sorted = Object.values(itemMap).sort((a, b) => b.qty - a.qty);
-  const maxQty = sorted[0].qty;
+  var sorted = Object.values(itemMap).sort(function(a, b) { return b.qty - a.qty; });
+  var maxQty = sorted[0].qty;
 
-  tbody.innerHTML = sorted.map((item, i) => {
-    const pct = totalQty > 0 ? ((item.qty / totalQty) * 100).toFixed(1) : 0;
-    const barWidth = maxQty > 0 ? ((item.qty / maxQty) * 100).toFixed(0) : 0;
-    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+  tbody.innerHTML = sorted.map(function(item, i) {
+    var pct = totalQty > 0 ? ((item.qty / totalQty) * 100).toFixed(1) : 0;
+    var barWidth = maxQty > 0 ? ((item.qty / maxQty) * 100).toFixed(0) : 0;
+    var rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
     return `
       <tr>
         <td><div class="rank ${rankClass}">${i + 1}</div></td>
@@ -1018,97 +633,88 @@ function renderTopItems() {
 }
 
 async function checkNewOrders() {
-  orders = await getOrders();
-  const newOrders = orders.filter(o => o.id > lastSeenId && o.status === 'pendente');
+  var fresh = await getOrders();
+  var newOrders = fresh.filter(function(o) { return o.id > lastSeenId && o.status === 'pendente'; });
   if (newOrders.length > 0) {
-    lastSeenId = Math.max(...orders.map(o => o.id));
+    lastSeenId = Math.max.apply(null, fresh.map(function(o) { return o.id; }));
+    orders = fresh;
     playAlertSound();
-    const o = newOrders[0];
-    showToast('⏳', `Novo pedido #${String(o.id).padStart(3,'0')} de ${o.name}`, 'new');
-    renderOrders();
-    updateStats();
-    
+    var o = newOrders[0];
+    showToast('⏳', 'Novo pedido #' + String(o.id).padStart(3,'0') + ' de ' + o.name, 'new');
+    if (currentTab === 'pedidos') { renderOrders(); updateStats(); }
+    if (currentTab === 'relatorios') renderTopItems();
     updateBadge();
+  } else {
+    orders = fresh;
+    if (currentTab === 'pedidos') updateBadge();
   }
 }
 
-// ===== REVENUE BY PERIOD =====
 function setPeriod(p, el) {
   currentPeriod = p;
   customDateStart = null;
   customDateEnd = null;
-  document.querySelectorAll('.period-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.period-pill').forEach(function(b) { b.classList.remove('active'); });
   if (el) el.classList.add('active');
 
-  const label = document.getElementById('date-range-label');
-  const labels = { hoje: 'Período: Hoje', ontem: 'Período: Ontem', '7dias': 'Período: Últimos 7 dias', '30dias': 'Período: Últimos 30 dias', total: 'Período: Total' };
+  var label = document.getElementById('date-range-label');
+  var labels = { hoje: 'Período: Hoje', ontem: 'Período: Ontem', '7dias': 'Período: Últimos 7 dias', '30dias': 'Período: Últimos 30 dias', total: 'Período: Total' };
   label.textContent = labels[p] || 'Período: Personalizado';
 
-  
-  checkNewOrders();
+  renderOrders();
+  updateStats();
 }
 
 function parseOrderTime(timeStr) {
   if (!timeStr) return null;
   try {
-    const parts = timeStr.split(', ');
+    var parts = timeStr.split(', ');
     if (parts.length < 2) return null;
-
-    let timePart, datePart;
-
-    // Detectar formato: pode ser "HH:MM, DD/MM" ou "DD/MM/YYYY, HH:MM"
-    if (parts[0].includes(':')) {
-      // Formato: HH:MM, DD/MM/YYYY
+    var timePart, datePart;
+    if (parts[0].indexOf(':') !== -1) {
       timePart = parts[0].trim();
       datePart = parts[1].trim();
     } else {
-      // Formato: DD/MM/YYYY, HH:MM
       datePart = parts[0].trim();
       timePart = parts[1].trim();
     }
-
-    const [h, m] = timePart.split(':').map(Number);
-    const dateBits = datePart.split('/').map(Number);
-    const d = dateBits[0];
-    const mo = dateBits[1];
-    const y = dateBits[2] || new Date().getFullYear();
-
+    var hm = timePart.split(':').map(Number);
+    var h = hm[0], m = hm[1];
+    var dateBits = datePart.split('/').map(Number);
+    var d = dateBits[0], mo = dateBits[1], y = dateBits[2] || new Date().getFullYear();
     if (isNaN(d) || isNaN(mo) || isNaN(y) || isNaN(h) || isNaN(m)) return null;
     return new Date(y, mo - 1, d, h, m);
   } catch(e) { return null; }
 }
 
 function localDate(dateStr) {
-  // Cria data no timezone LOCAL (não UTC)
-  const [y, m, d] = dateStr.split('-').map(Number);
-  return new Date(y, m - 1, d);
+  var bits = dateStr.split('-').map(Number);
+  return new Date(bits[0], bits[1] - 1, bits[2]);
 }
 
 function getPeriodOrders(useCustomDates) {
-  const all = orders; // usa a variável global já carregada
-  const now = new Date();
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const todayEnd = new Date(todayStart); todayEnd.setDate(todayEnd.getDate() + 1);
-  const yesterdayStart = new Date(todayStart); yesterdayStart.setDate(yesterdayStart.getDate() - 1);
-  const yesterdayEnd = new Date(todayStart);
-  const weekStart = new Date(todayStart); weekStart.setDate(weekStart.getDate() - 6);
-  const monthStart = new Date(todayStart); monthStart.setDate(monthStart.getDate() - 29);
+  var all = orders;
+  var now = new Date();
+  var todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var todayEnd = new Date(todayStart); todayEnd.setDate(todayEnd.getDate() + 1);
+  var yesterdayStart = new Date(todayStart); yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+  var yesterdayEnd = new Date(todayStart);
+  var weekStart = new Date(todayStart); weekStart.setDate(weekStart.getDate() - 6);
+  var monthStart = new Date(todayStart); monthStart.setDate(monthStart.getDate() - 29);
 
-  // Se tem filtro customizado de data e está ativo
   if (useCustomDates && customDateStart && customDateEnd) {
-    const s = localDate(customDateStart); s.setHours(0,0,0,0);
-    const e = localDate(customDateEnd); e.setHours(23,59,59,999);
-    return all.filter(o => {
-      const d = parseOrderTime(o.time);
+    var s = localDate(customDateStart); s.setHours(0,0,0,0);
+    var e = localDate(customDateEnd); e.setHours(23,59,59,999);
+    return all.filter(function(o) {
+      var d = parseOrderTime(o.time);
       if (!d) return true;
       return d >= s && d <= e;
     });
   }
 
-  return all.filter(o => {
-    const d = parseOrderTime(o.time);
+  return all.filter(function(o) {
+    var d = parseOrderTime(o.time);
     if (!d) return true;
-
     switch(currentPeriod) {
       case 'hoje': return d >= todayStart && d < todayEnd;
       case 'ontem': return d >= yesterdayStart && d < yesterdayEnd;
@@ -1120,29 +726,27 @@ function getPeriodOrders(useCustomDates) {
   });
 }
 
-// ===== STATS =====
 function updateStats() {
-  const periodOrders = getPeriodOrders(true);
+  var periodOrders = getPeriodOrders(true);
   document.getElementById('st-total').textContent = periodOrders.length;
-  document.getElementById('st-pendente').textContent = periodOrders.filter(o => o.status === 'pendente').length;
-  document.getElementById('st-entregue').textContent = periodOrders.filter(o => o.status === 'entregue').length;
-  const receita = periodOrders.filter(o => o.status !== 'cancelado').reduce((s, o) => s + o.total, 0);
+  document.getElementById('st-pendente').textContent = periodOrders.filter(function(o) { return o.status === 'pendente'; }).length;
+  document.getElementById('st-entregue').textContent = periodOrders.filter(function(o) { return o.status === 'entregue'; }).length;
+  var receita = periodOrders.filter(function(o) { return o.status !== 'cancelado'; }).reduce(function(s, o) { return s + o.total; }, 0);
   document.getElementById('st-receita').textContent = 'R$ ' + receita.toFixed(2).replace('.', ',');
   updateBadge();
 }
 
 function updateBadge() {
-  const p = orders.filter(o => o.status === 'pendente').length;
-  const badge = document.getElementById('pending-badge');
+  var p = orders.filter(function(o) { return o.status === 'pendente'; }).length;
+  var badge = document.getElementById('pending-badge');
   badge.textContent = p + ' pendente' + (p !== 1 ? 's' : '');
   badge.classList.toggle('hidden', p === 0);
 }
 
-// ===== ORDERS =====
 function renderOrders() {
-  const list = document.getElementById('orders-list');
-  orders = getPeriodOrders(true); // usa filtro de período
-  const filtered = currentFilter === 'todos' ? orders : orders.filter(o => o.status === currentFilter);
+  var list = document.getElementById('orders-list');
+  var displayOrders = getPeriodOrders(true);
+  var filtered = currentFilter === 'todos' ? displayOrders : displayOrders.filter(function(o) { return o.status === currentFilter; });
 
   if (filtered.length === 0) {
     list.innerHTML = `
@@ -1154,8 +758,8 @@ function renderOrders() {
     return;
   }
 
-  const statusMap = { pendente: 'Pendente', preparando: 'Preparando', pronto: 'Pronto', entregue: 'Entregue', cancelado: 'Cancelado' };
-  const nextMap = {
+  var statusMap = { pendente: 'Pendente', preparando: 'Preparando', pronto: 'Pronto', entregue: 'Entregue', cancelado: 'Cancelado' };
+  var nextMap = {
     pendente: [{label:'Aceitar', cls:'btn-accept', next:'preparando'}],
     preparando: [{label:'Pronto!', cls:'btn-ready', next:'pronto'}],
     pronto: [{label:'Entregue', cls:'btn-deliver', next:'entregue'}],
@@ -1163,8 +767,9 @@ function renderOrders() {
     cancelado: []
   };
 
-  list.innerHTML = filtered.map((o, i) => {
-    const actions = nextMap[o.status] || [];
+  list.innerHTML = filtered.map(function(o, i) {
+    var actions = nextMap[o.status] || [];
+    var items = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
     return `
       <div class="order-card ${o.status}" style="animation-delay:${i*0.04}s">
         <div class="order-top">
@@ -1182,17 +787,18 @@ function renderOrders() {
           💳 ${o.payment.toUpperCase()} ${o.notes ? '· 📝 ' + o.notes : ''}
         </div>
         <div class="order-items">
-          ${o.items.map(it => `
+          ${items.map(function(it) {
+            return `
             <div class="order-item-line">
               <span>${it.qty}x ${it.name}</span>
               <span>R$ ${(it.price*it.qty).toFixed(2).replace('.',',')}</span>
-            </div>
-          `).join('')}
+            </div>`;
+          }).join('')}
         </div>
         <div class="order-footer">
           <div class="order-total">R$ ${o.total.toFixed(2).replace('.',',')}</div>
           <div class="order-actions">
-            ${actions.map(a => `<button class="${a.cls}" onclick="changeStatus(${o.id},'${a.next}')">${a.label}</button>`).join('')}
+            ${actions.map(function(a) { return `<button class="${a.cls}" onclick="changeStatus(${o.id},'${a.next}')">${a.label}</button>`; }).join('')}
             ${o.status !== 'entregue' && o.status !== 'cancelado' ? `<button class="btn-cancel-order" onclick="cancelOrder(${o.id})">Cancelar</button>` : ''}
             <button class="btn-delete-order" onclick="deleteOrder(${o.id})">🗑️ Excluir</button>
           </div>
@@ -1203,49 +809,56 @@ function renderOrders() {
 }
 
 async function changeStatus(id, status) {
-  await supabase.from('orders').update({ status }).eq('id', id);
-  const o = orders.find(x => x.id === id);
-  if (o) o.status = status;
-    renderOrders();
-    updateStats();
-    
-    showToast('✅', `Pedido #${String(id).padStart(3,'0')} → ${status}`, 'ok');
+  var { error } = await supabaseClient.from('orders').update({ status: status }).eq('id', id);
+  if (error) {
+    showToast('❌', 'Erro ao atualizar status', 'del');
+    return;
   }
+  var o = orders.find(function(x) { return x.id === id; });
+  if (o) o.status = status;
+  renderOrders();
+  updateStats();
+  showToast('✅', 'Pedido #' + String(id).padStart(3,'0') + ' → ' + status, 'ok');
 }
 
 async function cancelOrder(id) {
   if (!confirm('Cancelar este pedido?')) return;
-  await supabase.from('orders').update({ status: 'cancelado' }).eq('id', id);
-  const o = orders.find(x => x.id === id);
-  if (o) o.status = 'cancelado';
-    updateStats();
-    
-    showToast('❌', `Pedido #${String(id).padStart(3,'0')} cancelado`, 'del');
+  var { error } = await supabaseClient.from('orders').update({ status: 'cancelado' }).eq('id', id);
+  if (error) {
+    showToast('❌', 'Erro ao cancelar pedido', 'del');
+    return;
   }
+  var o = orders.find(function(x) { return x.id === id; });
+  if (o) o.status = 'cancelado';
+  renderOrders();
+  updateStats();
+  showToast('❌', 'Pedido #' + String(id).padStart(3,'0') + ' cancelado', 'del');
 }
 
 async function deleteOrder(id) {
-  if (!confirm(`⚠️ EXCLUIR permanentemente este pedido?\n\nEsta ação não pode ser desfeita.`)) return;
-  await supabase.from('orders').delete().eq('id', id);
-
-Esta ação não pode ser desfeita.`)) return;
-  orders = orders.filter(o => o.id !== id);
+  if (!confirm('⚠️ EXCLUIR permanentemente este pedido?\n\nEsta ação não pode ser desfeita.')) return;
+  var { error } = await supabaseClient.from('orders').delete().eq('id', id);
+  if (error) {
+    console.error('Erro ao excluir:', error);
+    showToast('❌', 'Erro ao excluir pedido', 'del');
+    return;
+  }
+  orders = orders.filter(function(o) { return o.id !== id; });
   renderOrders();
   updateStats();
-  
-  showToast('🗑️', `Pedido #${String(id).padStart(3,'0')} excluído`, 'del');
+  showToast('🗑️', 'Pedido #' + String(id).padStart(3,'0') + ' excluído', 'del');
 }
 
 function setFilter(f, el) {
   currentFilter = f;
-  document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-pill').forEach(function(b) { b.classList.remove('active'); });
   if (el) el.classList.add('active');
   renderOrders();
 }
 
 // ===== MENU MANAGEMENT =====
 function renderMenuMgmt() {
-  const grid = document.getElementById('menu-grid');
+  var grid = document.getElementById('menu-grid');
   menu = getMenu();
 
   if (menu.length === 0) {
@@ -1253,7 +866,8 @@ function renderMenuMgmt() {
     return;
   }
 
-  grid.innerHTML = menu.map((item, i) => `
+  grid.innerHTML = menu.map(function(item, i) {
+    return `
     <div class="menu-item-card" style="animation:slideIn 0.3s ease ${i*0.03}s both;">
       <div class="menu-item-img">${item.emoji}</div>
       <div class="menu-item-info">
@@ -1266,8 +880,8 @@ function renderMenuMgmt() {
         <button onclick="editItem(${item.id})" title="Editar">✏️</button>
         <button class="btn-del" onclick="deleteItem(${item.id})" title="Excluir">🗑️</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function openModal() {
@@ -1284,7 +898,7 @@ function openModal() {
 }
 
 function editItem(id) {
-  const item = menu.find(m => m.id === id);
+  var item = menu.find(function(m) { return m.id === id; });
   if (!item) return;
   editingId = id;
   document.getElementById('modal-title').textContent = '✏️ Editar Item';
@@ -1303,11 +917,11 @@ function closeModal() {
 }
 
 function renderEmojiPicker() {
-  const wrap = document.getElementById('emoji-picker');
-  const selected = document.getElementById('m-emoji').value;
-  wrap.innerHTML = EMOJIS.map(e => `
-    <div class="emoji-opt ${e===selected?'selected':''}" onclick="selectEmoji('${e}')">${e}</div>
-  `).join('');
+  var wrap = document.getElementById('emoji-picker');
+  var selected = document.getElementById('m-emoji').value;
+  wrap.innerHTML = EMOJIS.map(function(e) {
+    return `<div class="emoji-opt ${e===selected?'selected':''}" onclick="selectEmoji('${e}')">${e}</div>`;
+  }).join('');
 }
 
 function selectEmoji(e) {
@@ -1316,11 +930,11 @@ function selectEmoji(e) {
 }
 
 function saveItem() {
-  const name = document.getElementById('m-name').value.trim();
-  const desc = document.getElementById('m-desc').value.trim();
-  const price = parseFloat(document.getElementById('m-price').value);
-  const cat = document.getElementById('m-cat').value.trim().toLowerCase();
-  const emoji = document.getElementById('m-emoji').value;
+  var name = document.getElementById('m-name').value.trim();
+  var desc = document.getElementById('m-desc').value.trim();
+  var price = parseFloat(document.getElementById('m-price').value);
+  var cat = document.getElementById('m-cat').value.trim().toLowerCase();
+  var emoji = document.getElementById('m-emoji').value;
 
   if (!name || isNaN(price) || price < 0 || !cat) {
     showToast('⚠️', 'Preencha nome, preço e categoria', 'del');
@@ -1328,16 +942,16 @@ function saveItem() {
   }
 
   if (editingId) {
-    const item = menu.find(m => m.id === editingId);
+    var item = menu.find(function(m) { return m.id === editingId; });
     if (item) {
       item.name = name; item.desc = desc; item.price = price;
       item.cat = cat; item.emoji = emoji;
     }
-    showToast('✅', `"${name}" atualizado`, 'ok');
+    showToast('✅', '"' + name + '" atualizado', 'ok');
   } else {
-    const newId = menu.length > 0 ? Math.max(...menu.map(m => m.id)) + 1 : 1;
-    menu.push({ id: newId, name, desc, price, emoji, cat });
-    showToast('✅', `"${name}" adicionado ao cardápio`, 'ok');
+    var newId = menu.length > 0 ? Math.max.apply(null, menu.map(function(m) { return m.id; })) + 1 : 1;
+    menu.push({ id: newId, name: name, desc: desc, price: price, emoji: emoji, cat: cat });
+    showToast('✅', '"' + name + '" adicionado ao cardápio', 'ok');
   }
 
   localStorage.setItem('pastel_menu', JSON.stringify(menu));
@@ -1346,12 +960,12 @@ function saveItem() {
 }
 
 function deleteItem(id) {
-  const item = menu.find(m => m.id === id);
-  if (!confirm(`Excluir "${item.name}" do cardápio?`)) return;
-  menu = menu.filter(m => m.id !== id);
+  var item = menu.find(function(m) { return m.id === id; });
+  if (!confirm('Excluir "' + item.name + '" do cardápio?')) return;
+  menu = menu.filter(function(m) { return m.id !== id; });
   localStorage.setItem('pastel_menu', JSON.stringify(menu));
   renderMenuMgmt();
-  showToast('🗑️', `"${item.name}" removido`, 'del');
+  showToast('🗑️', '"' + item.name + '" removido', 'del');
 }
 
 // ===== TABS =====
@@ -1360,17 +974,17 @@ function switchTab(tab, el) {
   document.getElementById('tab-pedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
   document.getElementById('tab-cardapio').style.display = tab === 'cardapio' ? 'block' : 'none';
   document.getElementById('tab-relatorios').style.display = tab === 'relatorios' ? 'block' : 'none';
-  document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(function(b) { b.classList.remove('active'); });
   if (el) el.classList.add('active');
-  if (tab === 'pedidos') { renderOrders(); updateStats();  }
+  if (tab === 'pedidos') { renderOrders(); updateStats(); }
   if (tab === 'cardapio') { renderMenuMgmt(); }
   if (tab === 'relatorios') { renderTopItems(); }
 }
 
 // ===== TOAST =====
 function showToast(icon, text, type) {
-  const wrap = document.getElementById('toast-wrap');
-  const t = document.createElement('div');
+  var wrap = document.getElementById('toast-wrap');
+  var t = document.createElement('div');
   t.className = 'toast';
   t.innerHTML = `
     <div class="toast-icon ${type}">${icon}</div>
@@ -1379,37 +993,15 @@ function showToast(icon, text, type) {
     </div>
   `;
   wrap.appendChild(t);
-  requestAnimationFrame(() => t.classList.add('show'));
-  setTimeout(() => {
+  requestAnimationFrame(function() { t.classList.add('show'); });
+  setTimeout(function() {
     t.classList.remove('show');
-    setTimeout(() => t.remove(), 400);
+    setTimeout(function() { t.remove(); }, 400);
   }, 4000);
 }
 
 init();
 </script>
 
-  <audio id="alert-sound" src="alerta.mp3?v=2" preload="auto"></audio>
-  <script>
-  (function(){
-    const a = document.getElementById('alert-sound');
-    if (!a) { console.log('❌ Audio element não encontrado no carregamento'); return; }
-    a.addEventListener('canplay', () => console.log('✅ Áudio carregado e pronto para tocar'));
-    a.addEventListener('error', (e) => {
-      const err = e.target.error;
-      let msg = 'desconhecido';
-      if (err) {
-        const codes = {1:'MEDIA_ERR_ABORTED', 2:'MEDIA_ERR_NETWORK', 3:'MEDIA_ERR_DECODE', 4:'MEDIA_ERR_SRC_NOT_SUPPORTED'};
-        msg = codes[err.code] || err.code;
-      }
-      console.log('❌ Erro no carregamento do áudio:', msg);
-      if (msg === 'MEDIA_ERR_SRC_NOT_SUPPORTED') {
-        console.log('💡 DICA: Converta alerta.mp4 para MP3. O navegador não suporta esse formato.');
-      }
-    });
-    a.addEventListener('ended', () => console.log('🔔 Áudio terminou de tocar'));
-    console.log('🔍 Monitor de áudio ativado. src:', a.src);
-  })();
-  </script>
 </body>
 </html>
