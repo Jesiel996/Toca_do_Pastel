@@ -557,6 +557,7 @@
     }
   </style>
 <base target="_blank">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <base target="_blank">
 </head>
 <body>
@@ -795,14 +796,10 @@ function testSound() {
   showToast('🔔', 'Campainha testada! 3 toques', 'ok');
 }
 
-// ===== BROADCAST CHANNEL =====
-let bc = null;
-try { bc = new BroadcastChannel('pastel_condominio'); } catch(e) {}
-
-function broadcast(msg) {
-  if (bc) bc.postMessage(msg);
-  localStorage.setItem('pastel_ping', Date.now().toString());
-}
+// ===== SUPABASE =====
+const SUPABASE_URL = 'https://gddwosqhbqvzxgrqxqbf.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkZHdvc3FoYnF2enhncnF4cWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODMxNTcsImV4cCI6MjEwMTg1OTE1N30.sr4XykqinnjCxpO0HTzif3tFvO6LJsJQpgsmS3iBgEg';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
@@ -829,9 +826,14 @@ function getMenu() {
   return DEFAULT_MENU;
 }
 
-function getOrders() {
+async function getOrders() {
   try {
-    return JSON.parse(localStorage.getItem('pastel_orders') || '[]');
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('id', { ascending: false });
+    if (error) { console.error('Erro ao buscar pedidos:', error); return []; }
+    return data || [];
   } catch(e) { console.error('Erro ao ler pedidos:', e); return []; }
 }
 
@@ -909,8 +911,7 @@ function applyDateFilter() {
   document.getElementById('date-range-label').textContent = 'Período: ' + startFmt + ' até ' + endFmt;
 
   
-  updateStats();
-  renderOrders();
+  checkNewOrders();
   showToast('✅', 'Filtro aplicado', 'ok');
 }
 
@@ -925,8 +926,7 @@ function clearDateFilter() {
   document.querySelector('.period-pill').classList.add('active');
   document.getElementById('date-range-label').textContent = 'Período: Hoje';
   
-  updateStats();
-  renderOrders();
+  checkNewOrders();
 }
 
 function applyReportDateFilter() {
@@ -958,7 +958,7 @@ function clearReportDateFilter() {
 
 function renderTopItems() {
   const tbody = document.getElementById('report-tbody');
-  let all = getOrders().filter(o => o.status !== 'cancelado');
+  let all = orders.filter(o => o.status !== 'cancelado');
 
   // Filtrar por data do relatório
   if (reportDateStart && reportDateEnd) {
@@ -1017,8 +1017,8 @@ function renderTopItems() {
   }).join('');
 }
 
-function checkNewOrders() {
-  orders = getOrders();
+async function checkNewOrders() {
+  orders = await getOrders();
   const newOrders = orders.filter(o => o.id > lastSeenId && o.status === 'pendente');
   if (newOrders.length > 0) {
     lastSeenId = Math.max(...orders.map(o => o.id));
@@ -1045,8 +1045,7 @@ function setPeriod(p, el) {
   label.textContent = labels[p] || 'Período: Personalizado';
 
   
-  updateStats();
-  renderOrders();
+  checkNewOrders();
 }
 
 function parseOrderTime(timeStr) {
@@ -1086,7 +1085,7 @@ function localDate(dateStr) {
 }
 
 function getPeriodOrders(useCustomDates) {
-  const all = getOrders();
+  const all = orders; // usa a variável global já carregada
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(todayStart); todayEnd.setDate(todayEnd.getDate() + 1);
@@ -1203,11 +1202,10 @@ function renderOrders() {
   }).join('');
 }
 
-function changeStatus(id, status) {
+async function changeStatus(id, status) {
+  await supabase.from('orders').update({ status }).eq('id', id);
   const o = orders.find(x => x.id === id);
-  if (o) {
-    o.status = status;
-    localStorage.setItem('pastel_orders', JSON.stringify(orders));
+  if (o) o.status = status;
     renderOrders();
     updateStats();
     
@@ -1215,25 +1213,23 @@ function changeStatus(id, status) {
   }
 }
 
-function cancelOrder(id) {
+async function cancelOrder(id) {
   if (!confirm('Cancelar este pedido?')) return;
+  await supabase.from('orders').update({ status: 'cancelado' }).eq('id', id);
   const o = orders.find(x => x.id === id);
-  if (o) {
-    o.status = 'cancelado';
-    localStorage.setItem('pastel_orders', JSON.stringify(orders));
-    renderOrders();
+  if (o) o.status = 'cancelado';
     updateStats();
     
     showToast('❌', `Pedido #${String(id).padStart(3,'0')} cancelado`, 'del');
   }
 }
 
-function deleteOrder(id) {
-  if (!confirm(`⚠️ EXCLUIR permanentemente este pedido?
+async function deleteOrder(id) {
+  if (!confirm(`⚠️ EXCLUIR permanentemente este pedido?\n\nEsta ação não pode ser desfeita.`)) return;
+  await supabase.from('orders').delete().eq('id', id);
 
 Esta ação não pode ser desfeita.`)) return;
   orders = orders.filter(o => o.id !== id);
-  localStorage.setItem('pastel_orders', JSON.stringify(orders));
   renderOrders();
   updateStats();
   
@@ -1393,7 +1389,7 @@ function showToast(icon, text, type) {
 init();
 </script>
 
-  <audio id="alert-sound" src="alerta.mp3.mp3?v=2" preload="auto"></audio>
+  <audio id="alert-sound" src="alerta.mp3?v=2" preload="auto"></audio>
   <script>
   (function(){
     const a = document.getElementById('alert-sound');
