@@ -17,6 +17,69 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ===== LOGIN SCREEN ===== */
+    .login-screen {
+      position: fixed; inset: 0; z-index: 1000;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .login-screen.hidden { display: none !important; }
+    .login-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%; max-width: 400px;
+      text-align: center;
+      animation: loginSlide 0.5s ease both;
+    }
+    @keyframes loginSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .login-icon {
+      width: 72px; height: 72px; border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent), #FF5722);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(255,122,47,0.25);
+    }
+    .login-box h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .login-box p { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 28px; }
+    .login-form .form-group { margin-bottom: 18px; text-align: left; }
+    .login-form label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .login-form input {
+      width: 100%; padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text); font-size: 1rem;
+      outline: none; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .login-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .login-form input::placeholder { color: var(--text-muted); }
+    .login-error {
+      color: var(--danger); font-size: 0.82rem; font-weight: 600;
+      margin-bottom: 16px; opacity: 0; transform: translateY(-4px);
+      transition: all 0.3s;
+    }
+    .login-error.show { opacity: 1; transform: translateY(0); }
+    .btn-login {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--accent), #FF5722);
+      border: none; border-radius: 14px;
+      color: #fff; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 4px 20px rgba(255,122,47,0.3);
+      transition: all 0.2s;
+    }
+    .btn-login:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-login:active { transform: scale(0.98); }
+
+    /* ===== HEADER ===== */
     .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: 12px; }
@@ -25,16 +88,31 @@
     .brand span { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
     .header-badge { background: var(--danger); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-logout {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+    }
+    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== MAIN TABS ===== */
     .main-tabs { max-width: 1200px; margin: 0 auto; padding: 20px 24px 0; display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
     .main-tab { padding: 10px 20px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-dim); font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; margin-bottom: -1px; }
     .main-tab:hover { color: var(--text); }
     .main-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ===== CONTENT ===== */
     .content { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+    /* ===== PERIOD STATS ===== */
     .period-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .period-bar::-webkit-scrollbar { display: none; }
     .period-pill { background: var(--card); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; border-radius: 24px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
     .period-pill:hover { border-color: var(--accent); color: var(--text); }
     .period-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
+
+    /* ===== STATS ===== */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
     .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; transition: all 0.2s; }
     .stat-card:hover { border-color: rgba(255,122,47,0.2); }
@@ -48,11 +126,15 @@
     .stat-change.up { background: rgba(52,211,153,0.12); color: var(--success); }
     .stat-value { font-size: 1.8rem; font-weight: 800; }
     .stat-label { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; font-weight: 500; }
+
+    /* ===== ORDER FILTERS ===== */
     .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .filter-bar::-webkit-scrollbar { display: none; }
     .filter-pill { background: var(--card); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 18px; border-radius: 24px; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
     .filter-pill:hover { border-color: var(--accent); color: var(--text); }
     .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
+
+    /* ===== ORDER CARDS ===== */
     .orders-list { display: flex; flex-direction: column; gap: 12px; }
     .order-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; transition: all 0.25s; animation: slideIn 0.35s ease both; position: relative; overflow: hidden; }
     .order-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
@@ -63,6 +145,7 @@
     .order-card.cancelado::before { background: var(--danger); }
     .order-card:hover { border-color: rgba(255,122,47,0.15); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
     @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     .order-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .order-id { font-weight: 800; font-size: 1rem; }
     .order-time { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
@@ -78,11 +161,14 @@
     .status-dot.pronto { background: var(--info); }
     .status-dot.entregue { background: var(--success); }
     .status-dot.cancelado { background: var(--danger); }
+
     .order-customer { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.6; }
     .order-customer strong { color: var(--text); }
+
     .order-items { background: var(--surface); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
     .order-item-line { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 4px 0; color: var(--text-dim); }
     .order-item-line span:last-child { color: var(--text); font-weight: 600; }
+
     .order-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .order-total { font-size: 1.1rem; font-weight: 800; color: var(--accent); }
     .order-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -99,13 +185,17 @@
     .btn-cancel-order:hover { background: rgba(248,113,113,0.1); }
     .btn-delete-order { background: transparent; border: 1px solid var(--text-muted) !important; color: var(--text-muted); font-size: 0.7rem !important; }
     .btn-delete-order:hover { background: rgba(248,113,113,0.1); border-color: var(--danger) !important; color: var(--danger); }
+
     .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); }
     .empty-state .big { font-size: 4rem; margin-bottom: 16px; display: block; }
     .empty-state h3 { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 6px; }
+
+    /* ===== MENU MANAGEMENT ===== */
     .menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .menu-header h2 { font-size: 1.1rem; font-weight: 700; }
     .btn-add-item { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 4px 16px rgba(255,122,47,0.2); }
     .btn-add-item:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
     .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
     .menu-item-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; display: flex; gap: 14px; align-items: center; transition: all 0.2s; }
     .menu-item-card:hover { border-color: rgba(255,122,47,0.2); }
@@ -119,6 +209,8 @@
     .menu-item-actions button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all 0.2s; }
     .menu-item-actions button:hover { border-color: var(--accent); color: var(--accent); }
     .menu-item-actions .btn-del:hover { border-color: var(--danger); color: var(--danger); background: rgba(248,113,113,0.08); }
+
+    /* ===== MODAL ===== */
     .modal-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal { background: var(--card); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; transform: translateY(20px) scale(0.97); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -133,6 +225,7 @@
     .modal-footer .btn-save:hover { filter: brightness(1.1); }
     .modal-footer .btn-cancel { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); }
     .modal-footer .btn-cancel:hover { color: var(--text); }
+
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 0.92rem; outline: none; font-family: inherit; transition: all 0.2s; }
@@ -143,6 +236,8 @@
     .emoji-opt { width: 40px; height: 40px; border-radius: 10px; background: var(--surface); border: 2px solid var(--border); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
     .emoji-opt:hover { border-color: var(--accent); }
     .emoji-opt.selected { border-color: var(--accent); background: var(--accent-glow); }
+
+    /* ===== TOAST ===== */
     .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 400; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 12px; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: all; min-width: 280px; }
     .toast.show { transform: translateX(0); }
@@ -152,7 +247,10 @@
     .toast-icon.del { background: rgba(248,113,113,0.12); }
     .toast-text h4 { font-size: 0.88rem; font-weight: 700; }
     .toast-text p { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+
     .hidden { display: none !important; }
+
+    /* ===== DATE FILTER ===== */
     .date-filter-bar { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
     .date-group { display: flex; flex-direction: column; gap: 6px; }
     .date-group label { font-size: 0.7rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -164,6 +262,8 @@
     .btn-clear-date { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; height: fit-content; }
     .btn-clear-date:hover { border-color: var(--accent); color: var(--text); }
     .date-range-label { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 14px; font-weight: 500; }
+
+    /* ===== REPORTS TABLE ===== */
     .report-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-top: 16px; }
     .report-table { width: 100%; border-collapse: collapse; }
     .report-table thead { background: var(--surface); }
@@ -182,17 +282,43 @@
     .report-table .pct-cell { font-size: 0.8rem; color: var(--text-muted); }
     .report-bar-bg { width: 100%; height: 6px; border-radius: 3px; background: var(--surface); overflow: hidden; margin-top: 6px; }
     .report-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); transition: width 0.6s ease; }
+
     @media (max-width: 768px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
       .header-inner { flex-wrap: wrap; gap: 10px; }
       .order-footer { flex-direction: column; align-items: flex-start; }
+      .login-box { padding: 36px 24px; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <base target="_blank">
 </head>
 <body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">🔒</div>
+    <h2>Painel de Gestão</h2>
+    <p>Digite suas credenciais para acessar</p>
+    <form class="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" id="login-user" placeholder="Digite o usuário" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="login-pass" placeholder="Digite a senha" autocomplete="current-password">
+      </div>
+      <div class="login-error" id="login-error">Usuário ou senha incorretos</div>
+      <button type="submit" class="btn-login">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== APP CONTENT (hidden until login) ===== -->
+<div id="app-content" class="hidden">
 
 <div class="header">
   <div class="header-inner">
@@ -203,9 +329,10 @@
         <span>Pastel do Condomínio</span>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
+    <div class="header-actions">
       <span id="pending-badge" class="header-badge hidden">0 pendentes</span>
       <button onclick="testSound()" title="Testar campainha" style="background:var(--surface);border:1px solid var(--border);color:var(--text-dim);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem;">🔔</button>
+      <button class="btn-logout" onclick="logout()">🚪 Sair</button>
     </div>
   </div>
 </div>
@@ -377,10 +504,53 @@
 
 <div class="toast-wrap" id="toast-wrap"></div>
 
+</div><!-- /app-content -->
+
+<audio id="alert-sound" src="alerta.mp3.mp3" preload="auto"></audio>
+
 <script>
+// ===== LOGIN =====
+const LOGIN_USER = 'admintoca';
+const LOGIN_PASS = 'tocadopastel2026';
+const SESSION_KEY = 'pastel_gestao_session';
+
+function checkSession() {
+  var logged = sessionStorage.getItem(SESSION_KEY);
+  if (logged === '1') {
+    showApp();
+  }
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  var user = document.getElementById('login-user').value.trim();
+  var pass = document.getElementById('login-pass').value.trim();
+  var errorEl = document.getElementById('login-error');
+
+  if (user === LOGIN_USER && pass === LOGIN_PASS) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    errorEl.classList.remove('show');
+    showApp();
+  } else {
+    errorEl.classList.add('show');
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-pass').focus();
+  }
+}
+
+function showApp() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('app-content').classList.remove('hidden');
+  // Inicializa o app
+  init();
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
 // ===== CAMPAINHA / ALERT SOUND =====
-// Tenta tocar alerta.mp3 (arquivo personalizado no repo).
-// Se não existir ou der erro, faz fallback para beeps via Web Audio API.
 let audioCtx = null;
 let alertAudio = null;
 let audioLoaded = false;
@@ -436,7 +606,6 @@ function playFallbackBeeps() {
 
 function playAlertSound() {
   initAlertAudio();
-  // Tenta tocar o arquivo personalizado primeiro
   if (alertAudio && audioLoaded && !audioError) {
     try {
       alertAudio.currentTime = 0;
@@ -445,7 +614,7 @@ function playAlertSound() {
         promise.then(function() {
           console.log('🔔 alerta.mp3 tocando');
         }).catch(function(err) {
-          console.log('⚠️ Navegador bloqueou autoplay do áudio. Usando beeps.');
+          console.log('⚠️ Navegador bloqueou autoplay. Usando beeps.');
           playFallbackBeeps();
         });
       }
@@ -454,7 +623,6 @@ function playAlertSound() {
       console.log('⚠️ Erro no áudio, usando fallback');
     }
   }
-  // Fallback para beeps
   playFallbackBeeps();
 }
 
@@ -464,9 +632,6 @@ function testSound() {
 }
 
 // ===== SUPABASE =====
-// ⚠️ ATENÇÃO: Em produção, use variáveis de ambiente para esconder a anon key.
-// Para GitHub Pages (hosting estático), a key anon é exposta por natureza.
-// Recomenda-se: Row Level Security (RLS) ativado no Supabase + políticas restritivas.
 const SUPABASE_URL = 'https://gddwosqhbqvzxgrqxqbf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkZHdvc3FoYnF2enhncnF4cWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODMxNTcsImV4cCI6MjEwMTg1OTE1N30.sr4XykqinnjCxpO0HTzif3tFvO6LJsJQpgsmS3iBgEg';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -489,7 +654,7 @@ const DEFAULT_MENU = [
 
 function getMenu() {
   try {
-    const saved = localStorage.getItem('pastel_menu');
+    var saved = localStorage.getItem('pastel_menu');
     if (saved) return JSON.parse(saved);
   } catch(e) { console.error('Erro ao ler menu:', e); }
   localStorage.setItem('pastel_menu', JSON.stringify(DEFAULT_MENU));
@@ -498,7 +663,7 @@ function getMenu() {
 
 async function getOrders() {
   try {
-    const { data, error } = await supabaseClient
+    var { data, error } = await supabaseClient
       .from('orders')
       .select('*')
       .order('id', { ascending: false });
@@ -1047,9 +1212,9 @@ function showToast(icon, text, type) {
   }, 4000);
 }
 
-init();
+// ===== STARTUP =====
+checkSession();
 </script>
 
-<audio id="alert-sound" src="alerta.mp3.mp3" preload="auto"></audio>
 </body>
 </html>
