@@ -283,6 +283,32 @@
     .report-bar-bg { width: 100%; height: 6px; border-radius: 3px; background: var(--surface); overflow: hidden; margin-top: 6px; }
     .report-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); transition: width 0.6s ease; }
 
+    .menu-item-card.inactive { opacity: 0.45; }
+    .menu-item-card.inactive .menu-item-name { text-decoration: line-through; color: var(--text-muted); }
+    .badge-inactive {
+      display: inline-block;
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .btn-toggle {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .btn-toggle:hover { border-color: var(--accent); }
+    .btn-toggle.off { color: var(--danger); }
+    .btn-toggle.off:hover { background: rgba(248,113,113,0.08); }
+    .btn-toggle.on { color: var(--success); }
+    .btn-toggle.on:hover { background: rgba(52,211,153,0.08); }
     @media (max-width: 768px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
@@ -638,24 +664,32 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== DATA =====
 const DEFAULT_MENU = [
-  { id: 1, name: "Pastel de Carne", desc: "Carne moída temperada com cebola e cheiro-verde", price: 8.00, emoji: "🥩", cat: "tradicionais" },
-  { id: 2, name: "Pastel de Queijo", desc: "Mussarela derretida na massa crocante", price: 7.00, emoji: "🧀", cat: "tradicionais" },
-  { id: 3, name: "Pastel de Frango", desc: "Frango desfiado com catupiry", price: 8.50, emoji: "🍗", cat: "tradicionais" },
-  { id: 4, name: "Pastel de Calabresa", desc: "Calabresa acebolada com orégano", price: 8.50, emoji: "🌭", cat: "tradicionais" },
-  { id: 5, name: "Pastel de Pizza", desc: "Mussarela, presunto, tomate e orégano", price: 9.00, emoji: "🍕", cat: "especiais" },
-  { id: 6, name: "Pastel de Camarão", desc: "Camarão com catupiry e cheiro-verde", price: 14.00, emoji: "🦐", cat: "especiais" },
-  { id: 7, name: "Pastel de Palmito", desc: "Palmito com catupiry e azeitona", price: 10.00, emoji: "🫒", cat: "especiais" },
-  { id: 8, name: "Pastel de Chocolate", desc: "Chocolate ao leite derretido", price: 7.50, emoji: "🍫", cat: "doces" },
-  { id: 9, name: "Pastel de Banana", desc: "Banana com canela e açúcar", price: 6.50, emoji: "🍌", cat: "doces" },
-  { id: 10, name: "Refrigerante Lata", desc: "Coca, Guaraná, Sprite, Fanta", price: 6.00, emoji: "🥤", cat: "bebidas" },
-  { id: 11, name: "Suco Natural", desc: "Laranja, Limão, Maracujá, Acerola", price: 8.00, emoji: "🧃", cat: "bebidas" },
-  { id: 12, name: "Água", desc: "Água mineral sem gás", price: 3.00, emoji: "💧", cat: "bebidas" },
+  { id: 1, name: "Pastel de Carne", desc: "Carne moída temperada com cebola e cheiro-verde", price: 8.00, emoji: "🥩", cat: "tradicionais", active: true },
+  { id: 2, name: "Pastel de Queijo", desc: "Mussarela derretida na massa crocante", price: 7.00, emoji: "🧀", cat: "tradicionais", active: true },
+  { id: 3, name: "Pastel de Frango", desc: "Frango desfiado com catupiry", price: 8.50, emoji: "🍗", cat: "tradicionais", active: true },
+  { id: 4, name: "Pastel de Calabresa", desc: "Calabresa acebolada com orégano", price: 8.50, emoji: "🌭", cat: "tradicionais", active: true },
+  { id: 5, name: "Pastel de Pizza", desc: "Mussarela, presunto, tomate e orégano", price: 9.00, emoji: "🍕", cat: "especiais", active: true },
+  { id: 6, name: "Pastel de Camarão", desc: "Camarão com catupiry e cheiro-verde", price: 14.00, emoji: "🦐", cat: "especiais", active: true },
+  { id: 7, name: "Pastel de Palmito", desc: "Palmito com catupiry e azeitona", price: 10.00, emoji: "🫒", cat: "especiais", active: true },
+  { id: 8, name: "Pastel de Chocolate", desc: "Chocolate ao leite derretido", price: 7.50, emoji: "🍫", cat: "doces", active: true },
+  { id: 9, name: "Pastel de Banana", desc: "Banana com canela e açúcar", price: 6.50, emoji: "🍌", cat: "doces", active: true },
+  { id: 10, name: "Refrigerante Lata", desc: "Coca, Guaraná, Sprite, Fanta", price: 6.00, emoji: "🥤", cat: "bebidas", active: true },
+  { id: 11, name: "Suco Natural", desc: "Laranja, Limão, Maracujá, Acerola", price: 8.00, emoji: "🧃", cat: "bebidas", active: true },
+  { id: 12, name: "Água", desc: "Água mineral sem gás", price: 3.00, emoji: "💧", cat: "bebidas", active: true },
 ];
 
 function getMenu() {
   try {
     var saved = localStorage.getItem('pastel_menu');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      var changed = false;
+      parsed.forEach(function(item) {
+        if (typeof item.active === 'undefined') { item.active = true; changed = true; }
+      });
+      if (changed) localStorage.setItem('pastel_menu', JSON.stringify(parsed));
+      return parsed;
+    }
   } catch(e) { console.error('Erro ao ler menu:', e); }
   localStorage.setItem('pastel_menu', JSON.stringify(DEFAULT_MENU));
   return DEFAULT_MENU;
@@ -1079,16 +1113,18 @@ function renderMenuMgmt() {
   }
 
   grid.innerHTML = menu.map(function(item, i) {
+    var isInactive = item.active === false;
     return `
-    <div class="menu-item-card" style="animation:slideIn 0.3s ease ${i*0.03}s both;">
+    <div class="menu-item-card ${isInactive ? 'inactive' : ''}" style="animation:slideIn 0.3s ease ${i*0.03}s both;">
       <div class="menu-item-img">${item.emoji}</div>
       <div class="menu-item-info">
-        <div class="menu-item-name">${item.name}</div>
+        <div class="menu-item-name">${item.name}${isInactive ? '<span class="badge-inactive">Indisponível</span>' : ''}</div>
         <div class="menu-item-desc">${item.desc}</div>
         <div class="menu-item-price">R$ ${item.price.toFixed(2).replace('.',',')}</div>
         <div class="menu-item-cat">${item.cat}</div>
       </div>
       <div class="menu-item-actions">
+        <button class="btn-toggle ${isInactive ? 'off' : 'on'}" onclick="toggleItemActive(${item.id})" title="${isInactive ? 'Ativar item' : 'Desativar item'}">${isInactive ? '👁️‍🗨️' : '👁️'}</button>
         <button onclick="editItem(${item.id})" title="Editar">✏️</button>
         <button class="btn-del" onclick="deleteItem(${item.id})" title="Excluir">🗑️</button>
       </div>
@@ -1169,6 +1205,16 @@ function saveItem() {
   localStorage.setItem('pastel_menu', JSON.stringify(menu));
   closeModal();
   renderMenuMgmt();
+}
+
+function toggleItemActive(id) {
+  var item = menu.find(function(m) { return m.id === id; });
+  if (!item) return;
+  item.active = !item.active;
+  localStorage.setItem('pastel_menu', JSON.stringify(menu));
+  renderMenuMgmt();
+  var msg = item.active ? '"' + item.name + '" disponível no cardápio' : '"' + item.name + '" indisponível';
+  showToast(item.active ? '👁️' : '👁️‍🗨️', msg, item.active ? 'ok' : 'del');
 }
 
 function deleteItem(id) {
